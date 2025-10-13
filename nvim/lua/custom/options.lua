@@ -5,3 +5,6 @@ vim.opt.softtabstop = 2 -- number of spaces a <Tab> inserts/deletes in insert mo
 vim.opt.expandtab = true -- convert tabs to spaces
 vim.opt.smartindent = true -- smart autoindenting on new lines
 vim.opt.breakindent = true -- maintain indent when wrapping lines
+
+-- Load custom keybindings
+require 'custom.keybindings'

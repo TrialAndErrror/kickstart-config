@@ -25,16 +25,8 @@
         # Inject { import = "custom.plugins" } into lazy.setup (idempotent)
         # First check if it's already present (ignoring commented lines)
         if ! grep -v '^\s*--' "$out/init.lua" | grep -q 'custom.plugins'; then
-          # Try to inject into lazy.setup call (ignoring commented lines)
-          if ${pkgs.gnused}/bin/sed -n '/^[[:space:]]*require.*lazy.*setup/,/^[[:space:]]*}[[:space:]]*$/p' "$out/init.lua" | grep -q 'setup({'; then
-            ${pkgs.gnused}/bin/sed -i \
-              '/^[[:space:]]*require.*lazy.*setup/,/^[[:space:]]*}[[:space:]]*$/s|setup({|setup({\
-  { import = "custom.plugins" },|' \
-              "$out/init.lua"
-          else
-            # Fallback: append at the end
-            printf '\n-- Load custom plugins\n{ import = "custom.plugins" },\n' >> "$out/init.lua"
-          fi
+          # Replace the commented import line with the actual import
+          ${pkgs.gnused}/bin/sed -i 's|-- { import = .custom.plugins. },|  { import = "custom.plugins" },|' "$out/init.lua"
         fi
 
         # Load custom.options (idempotent)
@@ -44,7 +36,28 @@
 
         # Overlay local nvim/ if present
         if [ -d ${self}/nvim ]; then
+          echo "Copying nvim directory from ${self}/nvim to $out/"
           cp -r --no-preserve=mode,ownership ${self}/nvim/. "$out"/
+          echo "Nvim directory copied"
+        fi
+        
+        # Overlay local lua/ (for custom keybindings) - merge with existing lua/
+        if [ -d ${self}/lua ]; then
+          echo "Merging lua directory from ${self}/lua to $out/"
+          # Copy keybindings directory specifically
+          if [ -d ${self}/lua/custom/keybindings ]; then
+            mkdir -p "$out/lua/custom/keybindings"
+            cp -r --no-preserve=mode,ownership ${self}/lua/custom/keybindings/. "$out/lua/custom/keybindings/"
+            echo "Keybindings directory copied"
+          fi
+        fi
+        
+        # Show final structure
+        echo "Final lua/custom structure:"
+        ls -la "$out/lua/custom/" || echo "No lua/custom directory"
+        if [ -d "$out/lua/custom/keybindings" ]; then
+          echo "Keybindings directory contents:"
+          ls -la "$out/lua/custom/keybindings/"
         fi
       '';
     };
