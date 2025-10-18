@@ -120,27 +120,44 @@ A comprehensive Git workflow with three integrated tools:
 
 ### Git Operations
 - `<leader>gg` - Open Neogit status
-- `<leader>gc` - Commit changes
-- `<leader>gp` - Pull changes
-- `<leader>gP` - Push changes
-- `<leader>gb` - Checkout branch
+- `<leader>gc` - Neogit commit
+- `<leader>gp` - Neogit pull
+- `<leader>gP` - Neogit push
+- `<leader>gb` - Neogit checkout branch
 - `<leader>gd` - Open diff view
 - `<leader>gh` - File history
+- `<leader>gt` - Git branches (Telescope)
+- `<leader>gT` - Git commits (Telescope)
+- `<leader>gS` - Git status (Telescope)
 - `]h`/`[h` - Next/previous Git hunk
 - `<leader>hs` - Stage hunk
 - `<leader>hr` - Reset hunk
 
 ### AI Assistant
-- `<leader>ca` - Toggle Cursor Agent terminal
-- `<leader>cA` - Send entire buffer to AI
-- `<leader>ca` (visual mode) - Send selection to AI
+- `<leader>cc` - Toggle Cursor Agent terminal
+- `<leader>cC` - Send entire buffer to AI
+- `<leader>cc` (visual mode) - Send selection to AI
 
 ### Window Management
 - `<C-h/j/k/l>` - Navigate between windows
+- `<leader>ww` - Switch to next window/panel
+- `<leader>wW` - Switch to previous window/panel
+- `<leader>wh/j/k/l` - Go to specific window (left/bottom/top/right)
+- `<leader>ws` - Split horizontal
+- `<leader>wv` - Split vertical
+- `<leader>wd` - Close window
+- `<leader>wo` - Only window (close others)
+- `<leader>w=` - Equalize window sizes
+- `<leader>w+/-` - Increase/decrease window height
+- `<leader>w>/<` - Increase/decrease window width
+- `<leader>wr` - Rotate windows
+- `<leader>wx` - Exchange windows
 - `<leader>q` - Open diagnostic quickfix list
 
 ### Code Actions
-- `<leader>f` - Format code
+- `<leader>ca` - Code actions
+- `<leader>cr` - Rename symbol
+- `<leader>cf` - Format code
 - `grn` - Rename symbol
 - `gra` - Code actions
 - `grd` - Go to definition
