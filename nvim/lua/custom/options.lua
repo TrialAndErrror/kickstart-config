@@ -1,3 +1,7 @@
+-- Set leader key
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+
 -- enforce 2-space indentation globally
 vim.opt.tabstop = 2 -- display width of a tab character
 vim.opt.shiftwidth = 2 -- number of spaces for each indent level
