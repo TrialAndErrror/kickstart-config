@@ -151,6 +151,20 @@ mkdir -p "$(dirname "$DEST")"
 cp -a "$STAGE" "$DEST"
 ok "Installed to $DEST"
 
+# ── Register the install (so update.sh can find it later) ──────────────────
+REGISTRY="${XDG_DATA_HOME:-$HOME/.local/share}/kickstart-config/installs.tsv"
+mkdir -p "$(dirname "$REGISTRY")"
+if [ -n "$PREFIX" ]; then
+  # kind  dest  prefix  name  bin-dir
+  entry="$(printf 'portable\t%s\t%s\t%s\t%s' "$DEST" "$PREFIX" "$NAME" "$BIN_DIR")"
+else
+  entry="$(printf 'config\t%s\t\t\t' "$DEST")"
+fi
+{
+  [ -f "$REGISTRY" ] && awk -F'\t' -v d="$DEST" '$2 != d' "$REGISTRY"
+  printf '%s\n' "$entry"
+} > "$REGISTRY.new" && mv "$REGISTRY.new" "$REGISTRY"
+
 # ── Portable launcher ──────────────────────────────────────────────────────
 if [ -n "$PREFIX" ]; then
   mkdir -p "$PREFIX/bin"

@@ -57,6 +57,22 @@ restored by hand). To remove a portable install, delete its `PREFIX` directory,
 the `~/.config/<name>` symlink, and any `--bin-dir` symlink.
 `~/.config/nvim/lua/local/` (machine-local plugin specs) is preserved across reinstalls.
 
+## Updating installs
+
+`install.sh` records every install in `~/.local/share/kickstart-config/installs.tsv`.
+`update.sh` lists them and re-runs the installer for each with its original options
+(backup first, `lua/local/` preserved):
+
+```bash
+./update.sh --list                  # show installs made from this repo
+./update.sh --pull --sync           # git pull, update all, then :Lazy restore each
+./update.sh ~/tools/kickstart       # only update one install
+./update.sh --adopt ~/.config/nvim  # register an install made before update.sh existed
+```
+
+Flags: `--list`, `--pull`, `--sync`, `--adopt DIR`, `--no-backup`, `--yes`.
+Run it from a clone; it installs from that clone's `nvim/`.
+
 ## Requirements
 
 - **Required:** Neovim >= 0.10, git (plus curl + tar for the one-liner)
@@ -65,7 +81,7 @@ the `~/.config/<name>` symlink, and any `--bin-dir` symlink.
 ## Layout
 
 ```
-install.sh / uninstall.sh
+install.sh / update.sh / uninstall.sh
 nvim/        the config itself (init.lua, lua/custom/*, lazy-lock.json)
 docs/nvim/   one cheat-sheet page per plugin
 ```

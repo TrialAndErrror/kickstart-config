@@ -4,7 +4,7 @@
 comment on GitHub pull requests from inside Neovim. It needs the `gh` CLI
 installed and authenticated (`gh auth login`).
 
-Config lives in `config/nvim/lua/custom/plugins/octo.lua`.
+Config lives in `nvim/lua/custom/plugins/octo.lua`.
 
 ## Keybindings
 
