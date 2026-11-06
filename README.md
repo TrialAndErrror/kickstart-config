@@ -21,12 +21,40 @@ git clone https://github.com/TrialAndErrror/kickstart-config.git
 cd kickstart-config && ./install.sh
 ```
 
-Options: `--dest DIR`, `--yes`, `--no-backup`, `--sync` (see `./install.sh --help`).
+Options (see `./install.sh --help`):
+
+| Flag | Does |
+| --- | --- |
+| `--dest DIR` | Install the config to `DIR` instead of `~/.config/nvim` |
+| `--prefix DIR` | Portable install: config in `DIR/config`, launcher in `DIR/bin` (see below) |
+| `--name NAME` | Launcher / `NVIM_APPNAME` for `--prefix` (default `nvim-kickstart`) |
+| `--bin-dir DIR` | With `--prefix`: symlink the launcher into `DIR` (e.g. `~/.local/bin`) |
+| `--yes` | Never prompt (implied when stdin isn't a terminal) |
+| `--no-backup` | Skip backing up an existing config |
+| `--sync` | Run a headless `:Lazy restore` after install |
 Env overrides for the download path: `KICKSTART_CONFIG_REPO` (`owner/repo`),
 `KICKSTART_CONFIG_REF` (branch/tag/sha).
 
+### Portable install (anywhere, on your PATH)
+
+```bash
+./install.sh --prefix ~/tools/kickstart --bin-dir ~/.local/bin
+# or without --bin-dir, then add DIR/bin to PATH yourself:
+./install.sh --prefix /opt/kickstart && export PATH="/opt/kickstart/bin:$PATH"
+nvim-kickstart
+```
+
+The config goes in `PREFIX/config` and a launcher in `PREFIX/bin/nvim-kickstart`
+(`--name` to change). The launcher runs nvim with `NVIM_APPNAME` set and keeps a
+`~/.config/<name>` symlink pointing at the install, so your regular `~/.config/nvim`
+is untouched and the directory can be moved (run the launcher from its new
+location; re-run with `--bin-dir` to refresh a PATH symlink).
+
 An existing `~/.config/nvim` is backed up to
-`~/.local/share/nvim-config-backups/` first; `./uninstall.sh` restores one.
+`~/.local/share/nvim-config-backups/` first; `./uninstall.sh` restores one
+(`nvim-*` backups only; portable installs are backed up as `portable-*` and
+restored by hand). To remove a portable install, delete its `PREFIX` directory,
+the `~/.config/<name>` symlink, and any `--bin-dir` symlink.
 `~/.config/nvim/lua/local/` (machine-local plugin specs) is preserved across reinstalls.
 
 ## Requirements

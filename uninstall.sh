@@ -6,7 +6,7 @@ DEST="${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
 BACKUP_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/nvim-config-backups"
 
 [ -d "$BACKUP_DIR" ] || { echo "No backup directory at $BACKUP_DIR" >&2; exit 1; }
-mapfile -t backups < <(find "$BACKUP_DIR" -maxdepth 1 -name '*.tar.gz' -type f | sort -r)
+mapfile -t backups < <(find "$BACKUP_DIR" -maxdepth 1 -name 'nvim-*.tar.gz' -type f | sort -r)
 [ "${#backups[@]}" -gt 0 ] || { echo "No backups in $BACKUP_DIR" >&2; exit 1; }
 
 echo "Available backups (newest first):"
